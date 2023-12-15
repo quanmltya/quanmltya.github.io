@@ -131,10 +131,10 @@
           function setQuality(width, ishq) {
             console.log("setQuality with width = " + width + " ishq = " + ishq)
             if(ishq) {
-              if(width > 1280) videoQuality = "hd1080"
-              else if (width > 853) videoQuality = "hd720"
-              else if (width > 640) videoQuality = "large"
-              else videoQuality = "medium"
+              if(width > 1280) videoQuality = "hd720"
+              else if (width > 853) videoQuality = "large"
+              else if (width > 640) videoQuality = "medium"
+              else videoQuality = "small"
             } else {
               videoQuality="small"
             }
