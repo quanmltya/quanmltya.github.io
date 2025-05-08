@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="height=device-height, initial-scale=1, user-scalable=no">
+    <style>
+        body {
+        margin : 0;
+        padding : 0;
+        text-align: center;
+        background: black;
+        height: 100%;
+        position: relative;
+        }
+
+        html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        }
+
+        iframe {
+        border : 0px;
+        frameborder : 0px;
+        }
+
+        #ytPlayerDiv {
+        border:0px;
+        margin:0px auto;
+        padding:0;
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="ytPlayerDiv"></div>
+<script>
+          var player;
+          function onYouTubeIframeAPIReady() {
+            player = new YT.Player('ytPlayerDiv', {
+              width: window.innerWidth,
+              height: window.innerHeight,
+              playerVars : {
+                'enablejsapi' : 1,
+                'controls' : 0,
+                'showinfo' : 0,
+                'autoplay' : 0,
+                'rel' : 1,
+                'iv_load_policy' : 3
+              },
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange,
+                'onError': onPlayerError,
+                'onPlaybackQualityChange': onPlayerQualityChange,
+              }
+            });
+          }
+
+          var refreshCurrentTimeIntervalId;
+          var videoQuality = "small"
+          var curVideoId = null;
+
+          var resizeTrickTimeout;
+          var shouldResizeTrick;
+
+          function onPlayerError(event) {
+              console.log("onPlayerError");
+              console.log(event.data);
+          }
+
+          function onPlayerReady(event) {
+            console.log("player ready ! ");
+            event.target.setPlaybackQuality(videoQuality);
+            //PlayerJavaInterface.onPlayerReady();
+            updatePlayerSize();
+          }
+
+          function onPlayerStateChange(event) {
+            //PlayerJavaInterface.onPlayerStateChanged(event.data);
+
+            clearInterval(refreshCurrentTimeIntervalId);
+            if (event.data === 1) {
+                refreshCurrentTimeIntervalId = setInterval(refreshCurrentTime, 500);
+
+                if (shouldResizeTrick) {
+                    shouldResizeTrick = false;
+                    resizeTrick();
+                }
+            }
+          }
+
+          function stopVideo() {
+            console.log("stopVideo");
+            player.stopVideo();
+          }
+
+          function pauseVideo() {
+            console.log("pauseVideo");
+            player.pauseVideo();
+          }
+
+          function playVideo() {
+            console.log("playVideo");
+            player.playVideo();
+          }
+          function loadVideo(videoId) {
+            //shouldResizeTrick = PlayerJavaInterface.isPreKitKat();
+
+            curVideoId = videoId;
+            player.loadVideoById(videoId, 0, videoQuality);
+          }
+
+          function loadVideoAtTime(videoId, time) {
+            //shouldResizeTrick = PlayerJavaInterface.isPreKitKat();
+            
+            curVideoId = videoId;
+            player.loadVideoById(videoId, time, videoQuality);
+          }
+
+          // Quality
+          function onPlayerQualityChange(event) {
+            console.log("OnPlayerQualityChange - quality " + event.data)
+            videoQuality = event.data
+          }
+
+          function setQuality(width, ishq) {
+            console.log("setQuality with width = " + width + " ishq = " + ishq)
+            if(ishq) {
+              if(width > 1280) videoQuality = "hd720"
+              else if (width > 853) videoQuality = "large"
+              else if (width > 640) videoQuality = "medium"
+              else videoQuality = "small"
+            } else {
+              videoQuality="small"
+            }
+            console.log("Load new video with quality: " + videoQuality)
+            player.loadVideoById(
+              curVideoId,
+              player.getCurrentTime(),
+              videoQuality)
+          }
+
+          function seekTo(time) {
+            player.seekTo(time, true);
+          }
+
+          function refreshCurrentTime() {
+            //PlayerJavaInterface.onCurrentTimeChanged(Math.round(player.getCurrentTime()), Math.round(player.getDuration()));
+          }
+
+          var updatePlayerSize = function() {
+             player.setSize(window.innerWidth, window.innerHeight);
+          }
+
+          var releasePlayer = function() {
+             player.stopVideo();
+             player.destroy();
+          }
+
+          var updatePlayerSizeTrick = function() {
+             player.setSize(window.innerWidth - 2, window.innerHeight - 2);
+          }
+
+          window.onresize = function(event) {
+             updatePlayerSize();
+          };
+          var resizeTrick = function() {
+             clearTimeout(resizeTrickTimeout);
+             resizeTrickTimeout = setTimeout(function() {
+                 updatePlayerSizeTrick();
+                  resizeTrickTimeout = setTimeout(function() {
+                      updatePlayerSize();
+                      resizeTrickTimeout = setTimeout(function() {
+                         updatePlayerSizeTrick();
+                         resizeTrickTimeout = setTimeout(function() {
+                            updatePlayerSize();
+                         }, 2500);
+                      }, 2500);
+                  }, 2500);
+             }, 2500);
+          }
+</script>
+<script type="text/javascript">
+var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/4fcd6e4a\/www-widgetapi.vflset\/www-widgetapi.js';try{var ttPolicy=window.trustedTypes.createPolicy("youtube-widget-api",{createScriptURL:function(x){return x}});scriptUrl=ttPolicy.createScriptURL(scriptUrl)}catch(e){}var YT;if(!window["YT"])YT={loading:0,loaded:0};var YTConfig;if(!window["YTConfig"])YTConfig={"host":"https://www.youtube.com"};
+if(!YT.loading){YT.loading=1;(function(){var l=[];YT.ready=function(f){if(YT.loaded)f();else l.push(f)};window.onYTReady=function(){YT.loaded=1;var i=0;for(;i<l.length;i++)try{l[i]()}catch(e){}};YT.setConfig=function(c){var k;for(k in c)if(c.hasOwnProperty(k))YTConfig[k]=c[k]};var a=document.createElement("script");a.type="text/javascript";a.id="www-widgetapi-script";a.src=scriptUrl;a.async=true;var c=document.currentScript;if(c){var n=c.nonce||c.getAttribute("nonce");if(n)a.setAttribute("nonce",
+n)}var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})()};
+</script>
+</body>
+</html> 
