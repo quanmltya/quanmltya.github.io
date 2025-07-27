@@ -1,0 +1,10 @@
+{
+    "orientation": "portrait",
+    "baseUrl": "http://10.0.1.53:5000",
+    "elementLabel": "Use mobile grid layout",
+    "timeouts": {
+        "periodicReloadMinute": 10,
+        "errorReload": 5,
+        "elementSearch": 5
+    }
+}
