@@ -184,6 +184,79 @@
                   }, 2500);
              }, 2500);
           }
+          
+          function findTitle() {
+            var ret = null;
+            var ifr = document.getElementById('ytPlayerDiv').contentWindow.document;
+            var containerIds = ['movie_player', 'player-controls'];
+            var attrNames = ['title-link', 'ytp-title-link', 'ytmVideoInfoVideoTitle'];
+            for (var cIdx = 0; cIdx < containerIds.length; cIdx++) {
+              var doc = ifr.getElementById(containerIds[cIdx]);
+              if (doc) {
+                var links = doc.getElementsByTagName('a');
+                if (links) {
+                  console.log('Links size: '+ links.length);
+                  for (var i = 0; i < links.length; i++) {
+                    var attr = links[i].getAttribute('class');
+                    console.log('attr[' + i + ']: ' + attr);
+                    if (attr) {
+                      for (var j = 0; j < attrNames.length; j++) {
+                        if (attr.includes(attrNames[j])) {
+                          ret = links[i].href + '\n' + links[i].textContent;
+                          i = links.length; // Break the outer loop
+                          cIdx = containerIds.length; // Break the outer loop
+                          console.log('Got ret (attr=' + attrNames[j] + ')=' + ret);
+                          break;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            return ret;
+          }
+          
+          function findNext() {
+            var ret = null;
+            var ifr = document.getElementById('ytPlayerDiv').contentWindow.document;
+            var containerIds = ['movie_player', 'player-control-overlay'];
+            var attrNames = ['ytp-suggestion-link', 'ytp-videowall-still', 'ytp-suggestion-set', 'videowall', 'media-item-thumbnail-container', 'media-item-extra-endpoint', 'next'];
+            for (var cIdx = 0; cIdx < containerIds.length; cIdx++) {
+              var doc = ifr.getElementById(containerIds[cIdx]);
+              if (doc) {
+                var links = doc.getElementsByTagName('a');
+                if (links) {
+                  console.log('Links size: '+ links.length);
+                  var linkTried = 0;
+                  var randomIndex = Math.floor(Math.random() * links.length);
+                  console.log('randomIndex: '+ randomIndex);
+                  while (linkTried++ < links.length) {
+                    var link = links[randomIndex++];
+                    var attr = link.getAttribute('class');
+                    console.log('attr: ' + attr);
+                    if (attr) {
+                      for (var i = 0; i < attrNames.length; i++) {
+                        if (attr.includes(attrNames[i])) {
+                          ret = link.href;
+                          if (ret && ret != '') {
+                            linkTried = links.length; // Break the outer loop
+                            cIdx = containerIds.length; // Break the outer loop
+                            console.log('Got ret (attr=' + attrNames[i] + ')=' + ret);
+                            break;
+                          }
+                        }
+                      }
+                    }
+                    if (randomIndex >= links.length) {
+                        randomIndex = 0;
+                    }
+                  }
+                }
+              }
+            }
+            return ret;
+          }
 </script>
 <script type="text/javascript">
     // unchecked sig
