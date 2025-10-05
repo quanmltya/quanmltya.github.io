@@ -1,0 +1,20 @@
+{
+  "settings": {
+    "volume": 0.8,
+    "playingTime": "06:00-22:00",
+    "restTime": "22:00-06:00",
+    "webPort": 8080,
+    "configUpdateInterval": 30
+  },
+  "stations": [
+    {
+      "uuid": "afff5851-a5d8-45ed-afe9-bc95915cd3c3",
+      "retryMax": 300
+    },
+    {
+      "uuid": "fa114bd0-1fef-45ba-b7ac-ebe4d3f22464",
+      "retryMax": 300
+    }
+  ],
+  "radioBrowserSrvDomain": "_api._tcp.radio-browser.info"
+}
