@@ -15,6 +15,5 @@
       "uuid": "fa114bd0-1fef-45ba-b7ac-ebe4d3f22464",
       "retryMax": 300
     }
-  ],
-  "radioBrowserSrvDomain": "_api._tcp.radio-browser.info"
+  ]
 }
