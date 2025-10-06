@@ -1,6 +1,6 @@
 {
   "settings": {
-    "volume": 0.8,
+    "volume": 0.2,
     "playingTime": "06:00-22:00",
     "restTime": "22:00-06:00",
     "webPort": 8080,
