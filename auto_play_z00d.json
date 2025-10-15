@@ -14,6 +14,26 @@
     {
       "uuid": "fa114bd0-1fef-45ba-b7ac-ebe4d3f22464",
       "retryMax": 300
+    },
+    {
+      "name": "M VN",
+      "uuid": "204b63f8-6629-4984-bbe0-0773c8220a91",
+      "retryMax": 100
+    },
+    {
+      "name": "Cherry",
+      "uuid": "3d35f6b4-0ade-42ca-a378-e8f3dfd66426",
+      "retryMax": 50
+    },
+    {
+      "name": "Drhk",
+      "uuid": "fd1e5131-7d82-400b-98a8-43a24180ea90",
+      "retryMax": 20
+    },
+    {
+      "name": "locf",
+      "uuid": "6f3f1531-1621-407c-8e3b-45aad9b3bf51",
+      "retryMax": 10
     }
   ]
 }
