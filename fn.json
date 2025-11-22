@@ -1,6 +1,6 @@
 {
     "orientation": "portrait",
-    "baseUrl": "http://10.0.1.53:5000",
+    "baseUrl": "http://10.0.1.14:5000",
     "elementLabel": "Use mobile list layout",
     "timeouts": {
         "periodicReloadMinute": 10,
