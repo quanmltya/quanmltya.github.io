@@ -1,7 +1,7 @@
 {
     "orientation": "portrait",
     "baseUrl": "http://10.0.1.14:5000",
-    "elementLabel": "Use mobile list layout",
+    "elementLabel": "Use mobile grid layout",
     "timeouts": {
         "periodicReloadMinute": 10,
         "errorReload": 5,
