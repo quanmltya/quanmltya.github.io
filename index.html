@@ -81,6 +81,16 @@
               console.log(event.data);
           }
 
+          function disableCaptions() {
+            if (!player) return;
+
+            try {
+              player.unloadModule('captions');
+            } catch (e) {
+              console.log("Disable captions error:", e);
+            }
+          }
+
           function onPlayerReady(event) {
             console.log("player ready ! ");
             event.target.setPlaybackQuality(videoQuality);
@@ -88,6 +98,8 @@
                 window.PlayerJavaInterface.onPlayerReady();
             }
             updatePlayerSize();
+            // Disable captions when player is ready
+            disableCaptions();
           }
 
           function onPlayerStateChange(event) {
@@ -96,7 +108,10 @@
             }
 
             clearInterval(refreshCurrentTimeIntervalId);
-            if (event.data === 1) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                // Disable captions when video starts playing
+                disableCaptions();
+
                 refreshCurrentTimeIntervalId = setInterval(refreshCurrentTime, 500);
 
                 if (shouldResizeTrick) {
